@@ -5,8 +5,8 @@ function App() {
   const [archive, setArchive] = useState(null);
   useEffect(() => {
     const getData = async () => {
-      const data = await axios.get("http://localhost:3001/videos");
-      setArchive(data);
+      const data = await axios.get("http://localhost:3001/tweets");
+      setArchive(data.data.tweets);
     };
 
     getData();
@@ -14,10 +14,17 @@ function App() {
   if (archive === null) return null;
   return (
     <>
-      <video controls>
-        <source src={archive.data[0].publicUrl} type="video/mp4"></source>
-      </video>
-      <h1>{archive.data[0].publicUrl}</h1>
+      {archive.map(tweet => (
+        <>
+          <p>{tweet.text}</p>
+          <video controls>
+            <source
+              src="https://ipfs.io/ipfs/bafybeiarblg7ztdz43issh6egak4nk7ku27d5zettw6z6fnoyotoyeomrq"
+              type="video/mp4"
+            ></source>
+          </video>
+        </>
+      ))}
     </>
   );
 }
