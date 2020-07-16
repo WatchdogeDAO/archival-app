@@ -14,6 +14,8 @@ function App() {
   if (archive === null) return null;
   return (
     <>
+      <h1>Citizen Archive</h1>
+      <p>Protecting citizen rights around the world.</p>
       {archive.map(tweet => (
         <>
           <p>{tweet.text}</p>
