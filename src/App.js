@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Header from "components/Header";
 
 function App() {
   const [archive, setArchive] = useState(null);
@@ -14,8 +15,7 @@ function App() {
   if (archive === null) return null;
   return (
     <>
-      <h1>Citizen Archive</h1>
-      <p>Protecting citizen rights around the world.</p>
+      <Header />
       {archive.map(tweet => (
         <>
           <p>{tweet.text}</p>
