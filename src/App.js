@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Container from "@material-ui/core/Container";
 import Header from "components/Header";
 import TweetList from "components/TweetList";
 
@@ -19,7 +20,9 @@ function App() {
   return (
     <>
       <Header />
-      <TweetList tweets={tweets} />
+      <Container>
+        <TweetList tweets={tweets} />
+      </Container>
     </>
   );
 }
