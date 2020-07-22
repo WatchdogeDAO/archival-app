@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import Container from "@material-ui/core/Container";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import Landing from "pages/Landing";
+import Archive from "pages/Archive";
+import Archivers from "pages/Archivers";
 import Header from "components/Header";
-import TweetList from "components/TweetList";
 
 function App() {
-  const [tweets, setTweets] = useState(null);
-  useEffect(() => {
-    const fetchTweets = async () => {
-      const response = await axios.get("http://localhost:3001/tweets");
-      setTweets(response.data.tweets);
-    };
-
-    fetchTweets();
-  }, []);
-
-  if (tweets === null) return null;
-
   return (
     <>
-      <Header />
-      <Container>
-        <TweetList tweets={tweets} />
-      </Container>
+      <Router>
+        <Header />
+        <Container>
+          <Switch>
+            <Route exact path="/">
+              <Landing />
+            </Route>
+            <Route path="/archivers">
+              <Archivers />
+            </Route>
+            <Route path="/archive">
+              <Archive />
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
     </>
   );
 }
