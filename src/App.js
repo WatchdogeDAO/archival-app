@@ -9,24 +9,22 @@ import Header from "components/Header";
 
 function App() {
   return (
-    <>
-      <Router>
-        <Header />
-        <Container>
-          <Switch>
-            <Route exact path="/">
-              <Landing />
-            </Route>
-            <Route path="/archivers">
-              <Archivers />
-            </Route>
-            <Route path="/archive">
-              <Archive />
-            </Route>
-          </Switch>
-        </Container>
-      </Router>
-    </>
+    <Router>
+      <Header />
+      <Container>
+        <Switch>
+          <Route exact path="/">
+            <Landing />
+          </Route>
+          <Route path="/archivers">
+            <Archivers />
+          </Route>
+          <Route path="/archive">
+            <Archive />
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   );
 }
 

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { ethers } from "ethers";
-import { connect } from "@aragon/connect";
-import { CuratedList } from "connect-thegraph-curated-list";
-import styled from "styled-components";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Hash from "ipfs-only-hash";
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {ethers} from 'ethers';
+import {connect} from '@aragon/connect';
+import {CuratedList} from 'connect-thegraph-curated-list';
+import styled from 'styled-components';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Hash from 'ipfs-only-hash';
+
+import MemberList from '../../components/MemberList';
 
 const Form = styled.form`
   display: flex;
@@ -17,29 +19,25 @@ const Form = styled.form`
 `;
 
 const Archivers = () => {
+  const [members, setMembers] = useState(null);
   useEffect(() => {
-    const main = async () => {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      // const org = await connect("0x5005e04882845575f7433796B0DF0858e901B544", "thegraph", {
-      //   chainId: 4,
-      // });
-      // const apps = await org.apps();
-      // const { address } = apps.find(app => app.appName.includes("list.open"));
+    const getMembers = async () => {
+      const org = await connect('0x5005e04882845575f7433796B0DF0858e901B544', 'thegraph', {
+        chainId: 4,
+      });
 
-      // const intent = await org.appIntent(address, "addArchiver", [
-      //   "332332",
-      //   "65s5d4asdaads33as4aasdq",
-      // ]);
+      const apps = await org.apps();
+      const {address} = apps.find(app => app.appName.includes('list.open'));
 
-      // const path = await intent.paths("0x1d076fcf1598C285D1c2f0685202AfaCdBcB0832");
-
-      // for (const transaction of path.transactions) {
-      //   let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
-      //   await signer.sendTransaction(parsedTransaction);
-      // }
+      const curatedList = await new CuratedList(
+        address,
+        'https://api.thegraph.com/subgraphs/name/mauerv/aragon-registry-rinkeby-staging'
+      );
+      const members = await curatedList.members();
+      console.log(members);
+      setMembers(members);
     };
-    main();
+    getMembers();
   }, []);
 
   const [twitterId, setTwitterId] = useState(null);
@@ -55,37 +53,36 @@ const Archivers = () => {
     const signer = provider.getSigner();
     let accounts = await provider.listAccounts();
 
-    const org = await connect("0x5005e04882845575f7433796B0DF0858e901B544", "thegraph", {
+    const org = await connect('0x5005e04882845575f7433796B0DF0858e901B544', 'thegraph', {
       chainId: 4,
     });
 
     const apps = await org.apps();
-    const { address } = apps.find(app => app.appName.includes("list.open"));
+    const {address} = apps.find(app => app.appName.includes('list.open'));
 
     const ipfsContent = {
       twitterId,
       justification: message,
     };
     const ipfsHash = await Hash.of(JSON.stringify(ipfsContent));
-    console.log("The smart contract IPFS Hash:", ipfsHash);
-    const intent = await org.appIntent(address, "addArchiver", [twitterId, ipfsHash]);
+    const intent = await org.appIntent(address, 'addArchiver', [twitterId, ipfsHash]);
     const path = await intent.paths(accounts[0]);
 
     // TODO: Handle transaction errors.
     try {
       for (const transaction of path.transactions) {
-        let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
+        let {children, description, descriptionAnnotated, ...parsedTransaction} = transaction;
         await signer.sendTransaction(parsedTransaction);
       }
     } catch (e) {
-      console.log("Something went wrong:", e);
+      console.log('Something went wrong:', e);
     }
 
     // TODO: Handle pinning errors.
     try {
-      await axios.post("http://localhost:3001/pin", { data: ipfsContent });
+      await axios.post('http://localhost:3001/pin', {data: ipfsContent});
     } catch (e) {
-      console.log("Something went wrong when pinning:", e);
+      console.log('Something went wrong when pinning:', e);
     }
   };
 
@@ -93,7 +90,7 @@ const Archivers = () => {
     <div>
       <p>Want to add an approved archiver?</p>
       <p>
-        We need their Twitter ID, you can get it from{" "}
+        We need their Twitter ID, you can get it from{' '}
         <a href="http://gettwitterid.com/" target="_blank" rel="noopener noreferrer">
           here
         </a>
@@ -117,16 +114,10 @@ const Archivers = () => {
         <Button variant="contained" color="primary" onClick={sendProposal}>
           Request Approval
         </Button>
+        {members && <MemberList members={members} />}
       </Form>
     </div>
   );
 };
 
 export default Archivers;
-
-// const curatedList = await new CuratedList(
-// 	address,
-// 	"https://api.thegraph.com/subgraphs/name/mauerv/aragon-registry-rinkeby-staging"
-// );
-// const members = await curatedList.members();
-// console.log("Members", members);
