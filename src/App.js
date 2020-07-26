@@ -1,11 +1,11 @@
-import React from "react";
-import Container from "@material-ui/core/Container";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React from 'react';
+import Container from '@material-ui/core/Container';
+import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 
-import Landing from "pages/Landing";
-import Archive from "pages/Archive";
-import Archivers from "pages/Archivers";
-import Header from "components/Header";
+import Landing from 'pages/Landing';
+import Archive from 'pages/Archive';
+import Archivers from 'pages/Archivers';
+import Header from 'components/Header';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route path="/archive">
             <Archive />
           </Route>
+          <Redirect to="/" />
         </Switch>
       </Container>
     </Router>
