@@ -1,11 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import React from 'react';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
-import MemberListItem from "../MemberListItem";
+import MemberListItem from '../MemberListItem';
 
-const MemberList = ({ members }) => (
+const MemberList = ({members}) => (
   <List>
     <ListItem>
       <p>Twitter ID</p>
