@@ -2,6 +2,7 @@
   "name": "archival-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@aragon/connect": "^0.4.2",
     "@material-ui/core": "^4.11.0",

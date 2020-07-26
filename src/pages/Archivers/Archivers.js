@@ -34,7 +34,6 @@ const Archivers = () => {
         'https://api.thegraph.com/subgraphs/name/mauerv/aragon-registry-rinkeby-staging'
       );
       const members = await curatedList.members();
-      console.log(members);
       setMembers(members);
     };
     getMembers();
