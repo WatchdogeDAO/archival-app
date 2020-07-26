@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { ethers } from "ethers";
 import { connect } from "@aragon/connect";
 import { CuratedList } from "connect-thegraph-curated-list";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Hash from "ipfs-only-hash";
 
 const Form = styled.form`
   display: flex;
@@ -17,25 +19,27 @@ const Form = styled.form`
 const Archivers = () => {
   useEffect(() => {
     const main = async () => {
-      const org = await connect("0x5005e04882845575f7433796B0DF0858e901B544", "thegraph", {
-        chainId: 4,
-      });
-      const apps = await org.apps();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      // const org = await connect("0x5005e04882845575f7433796B0DF0858e901B544", "thegraph", {
+      //   chainId: 4,
+      // });
+      // const apps = await org.apps();
+      // const { address } = apps.find(app => app.appName.includes("list.open"));
 
-      const { address } = apps.find(app => app.appName.includes("list.open"));
+      // const intent = await org.appIntent(address, "addArchiver", [
+      //   "332332",
+      //   "65s5d4asdaads33as4aasdq",
+      // ]);
 
-      const intent = await org.appIntent(address, "addArchiver", [
-        "332332",
-        "65s5d4asdaads33as4aasdq",
-      ]);
+      // const path = await intent.paths("0x1d076fcf1598C285D1c2f0685202AfaCdBcB0832");
 
-      const path = await intent.paths("0x1d076fcf1598C285D1c2f0685202AfaCdBcB0832");
-
-      for (const transaction of path.transactions) {
-        let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
-        await signer.sendTransaction(parsedTransaction);
-      }
+      // for (const transaction of path.transactions) {
+      //   let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
+      //   await signer.sendTransaction(parsedTransaction);
+      // }
     };
+    main();
   }, []);
 
   const [twitterId, setTwitterId] = useState(null);
@@ -46,26 +50,42 @@ const Archivers = () => {
   const handleMessageChange = event => setMessage(event.target.value);
 
   const sendProposal = async () => {
+    // TODO: Handle web3 account not connected.
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
+    let accounts = await provider.listAccounts();
 
     const org = await connect("0x5005e04882845575f7433796B0DF0858e901B544", "thegraph", {
       chainId: 4,
     });
-    const apps = await org.apps();
 
+    const apps = await org.apps();
     const { address } = apps.find(app => app.appName.includes("list.open"));
 
-    const intent = await org.appIntent(address, "addArchiver", [
+    const ipfsContent = {
       twitterId,
-      "65s5d4asdaads33as4aasdq",
-    ]);
+      justification: message,
+    };
+    const ipfsHash = await Hash.of(JSON.stringify(ipfsContent));
+    console.log("The smart contract IPFS Hash:", ipfsHash);
+    const intent = await org.appIntent(address, "addArchiver", [twitterId, ipfsHash]);
+    const path = await intent.paths(accounts[0]);
 
-    const path = await intent.paths("0x1d076fcf1598C285D1c2f0685202AfaCdBcB0832");
+    // TODO: Handle transaction errors.
+    try {
+      for (const transaction of path.transactions) {
+        let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
+        await signer.sendTransaction(parsedTransaction);
+      }
+    } catch (e) {
+      console.log("Something went wrong:", e);
+    }
 
-    for (const transaction of path.transactions) {
-      let { children, description, descriptionAnnotated, ...parsedTransaction } = transaction;
-      await signer.sendTransaction(parsedTransaction);
+    // TODO: Handle pinning errors.
+    try {
+      await axios.post("http://localhost:3001/pin", { data: ipfsContent });
+    } catch (e) {
+      console.log("Something went wrong when pinning:", e);
     }
   };
 
