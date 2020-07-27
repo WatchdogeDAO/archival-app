@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom';
-import ConnectButton from '../ConnectButton';
 
 const Brand = styled(Typography).attrs({variant: 'h4'})`
   & a {
@@ -44,7 +43,6 @@ const Header = () => (
         <HeaderLink variant="h4">
           <Link to="/archivers">Archivers</Link>
         </HeaderLink>
-        <ConnectButton />
       </Menu>
     </Toolbar>
   </StyledAppBar>

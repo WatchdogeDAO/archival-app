@@ -1,15 +1,30 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {ethers} from 'ethers';
-import {CuratedList} from 'connect-thegraph-curated-list';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import Hash from 'ipfs-only-hash';
 import {useApps, useOrganization} from '@aragon/connect-react';
 
 import MemberList from '../../components/MemberList';
 import useMembers from '../../hooks/useMembers';
+import Loading from '../../components/Loading';
+
+const ArchiversContainer = styled.div``;
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: ${props => props.theme.spacing(3)}px auto;
+`;
+
+const MemberArea = styled.div`
+  margin-top: ${props => props.theme.spacing(3)}px;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -19,12 +34,38 @@ const Form = styled.form`
   }
 `;
 
+const FormTitle = styled(Typography).attrs({variant: 'h5'})`
+  margin-bottom: ${props => props.theme.spacing(1)}px;
+`;
+const FormDescription = styled(Typography)`
+  margin-bottom: ${props => props.theme.spacing(1)}px;
+`;
+
+const LoadingMembers = styled.div`
+  padding: ${props => props.theme.spacing(4)}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const FormField = styled(TextField)`
+  margin-bottom: ${props => props.theme.spacing(1)}px;
+`;
+
+const FormSubmit = styled(Button)``;
+
+const LoadingText = styled(Typography)`
+  color: ${props => props.theme.palette.primary.light};
+`;
+
 const Archivers = () => {
   const [org, orgStatus] = useOrganization();
   const [apps, appsStatus] = useApps();
   const loading = orgStatus.loading || appsStatus.loading;
   const error = orgStatus.error || appsStatus.error;
-  const members = useMembers();
+  // const members = useMembers();
+  const members = null;
 
   const [twitterId, setTwitterId] = useState(null);
   const [message, setMessage] = useState(null);
@@ -39,22 +80,17 @@ const Archivers = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     let accounts = await provider.listAccounts();
-    console.log('Account', accounts[0]);
 
     if (loading) return;
     const {address} = apps.find(app => app.appName.includes('list.open'));
-    console.log('Address of app:', address);
     const ipfsContent = {
       twitterId,
       justification: message,
     };
-    console.log('IPFS Content', ipfsContent);
     const ipfsHash = await Hash.of(JSON.stringify(ipfsContent));
-    console.log('IPFS Hash', ipfsHash);
 
     const intent = await org.appIntent(address, 'addArchiver', [twitterId, ipfsHash]);
     const path = await intent.paths(accounts[0]);
-    console.log('Path', path);
     // TODO: Handle transaction errors.
     try {
       for (const transaction of path.transactions) {
@@ -74,36 +110,48 @@ const Archivers = () => {
   };
 
   return (
-    <div>
-      <p>Want to add an approved archiver?</p>
-      <p>
-        We need their Twitter ID, you can get it from{' '}
-        <a href="http://gettwitterid.com/" target="_blank" rel="noopener noreferrer">
-          here
-        </a>
-      </p>
-      <Form>
-        <TextField
-          label="Twitter Id"
-          rows={4}
-          placeholder="994080172"
-          variant="outlined"
-          onChange={handleTwitterIdChange}
-        />
-        <TextField
-          label="Message"
-          multiline
-          rows={4}
-          placeholder="I should be accepted as an archiver because..."
-          variant="outlined"
-          onChange={handleMessageChange}
-        />
-        <Button variant="contained" color="primary" onClick={sendProposal}>
-          Request Approval
-        </Button>
-        {members && <MemberList members={members} />}
-      </Form>
-    </div>
+    <ArchiversContainer>
+      <FormContainer>
+        <FormTitle>Want to add an approved archiver?</FormTitle>
+        <FormDescription>
+          We need their Twitter ID, you can get it from{' '}
+          <a href="http://gettwitterid.com/" target="_blank" rel="noopener noreferrer">
+            here
+          </a>
+        </FormDescription>
+        <Form>
+          <FormField
+            label="Twitter Id"
+            rows={4}
+            placeholder="994080172"
+            variant="outlined"
+            onChange={handleTwitterIdChange}
+          />
+          <FormField
+            label="Message"
+            multiline
+            rows={4}
+            placeholder="I should be accepted as an archiver because..."
+            variant="outlined"
+            onChange={handleMessageChange}
+          />
+          <FormSubmit variant="contained" color="primary" onClick={sendProposal}>
+            Request Approval
+          </FormSubmit>
+        </Form>
+      </FormContainer>
+      <Divider />
+      <MemberArea>
+        {members ? (
+          <MemberList members={members} />
+        ) : (
+          <LoadingMembers>
+            <Loading height="15%" width="15%" />
+            <LoadingText variant="h5">Fetching Archivers</LoadingText>
+          </LoadingMembers>
+        )}
+      </MemberArea>
+    </ArchiversContainer>
   );
 };
 
