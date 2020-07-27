@@ -79,7 +79,7 @@ const Archivers = () => {
 
     // TODO: Handle pinning errors.
     try {
-      await axios.post('http://localhost:3001/pin', {data: ipfsContent});
+      await axios.post(`${process.env.REACT_APP_API_URL}/pin`, {data: ipfsContent});
     } catch (e) {
       console.log('Something went wrong when pinning:', e);
     }
