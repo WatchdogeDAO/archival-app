@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hash from 'ipfs-only-hash';
-import {useApps, useOrganization, usePermissions} from '@aragon/connect-react';
+import {useApps, useOrganization} from '@aragon/connect-react';
 
 import MemberList from '../../components/MemberList';
+import useMembers from '../../hooks/useMembers';
 
 const Form = styled.form`
   display: flex;
@@ -21,24 +22,9 @@ const Form = styled.form`
 const Archivers = () => {
   const [org, orgStatus] = useOrganization();
   const [apps, appsStatus] = useApps();
-  const [permissions, permissionsStatus] = usePermissions();
-  const loading = orgStatus.loading || appsStatus.loading || permissionsStatus.loading;
-  const error = orgStatus.error || appsStatus.error || permissionsStatus.error;
-
-  const [members, setMembers] = useState(null);
-  useEffect(() => {
-    const {address} = apps.find(app => app.appName.includes('list.open'));
-    const getMembers = async () => {
-      const curatedList = await new CuratedList(
-        address,
-        'https://api.thegraph.com/subgraphs/name/mauerv/aragon-registry-rinkeby-staging'
-      );
-      const members = await curatedList.members();
-      setMembers(members);
-    };
-
-    getMembers();
-  }, [apps]);
+  const loading = orgStatus.loading || appsStatus.loading;
+  const error = orgStatus.error || appsStatus.error;
+  const members = useMembers();
 
   const [twitterId, setTwitterId] = useState(null);
   const [message, setMessage] = useState(null);
@@ -54,7 +40,7 @@ const Archivers = () => {
     let accounts = await provider.listAccounts();
     console.log('Account', accounts[0]);
 
-    if (apps === null) return;
+    if (loading) return;
     const {address} = apps.find(app => app.appName.includes('list.open'));
     console.log('Address of app:', address);
     const ipfsContent = {
