@@ -6,7 +6,7 @@ const Archive = () => {
   const [tweets, setTweets] = useState(null);
   useEffect(() => {
     const fetchTweets = async () => {
-      const response = await axios.get('https://watchdog-dao.herokuapp.com/tweets');
+      const response = await axios.get('https://localhost:3001/tweets');
       setTweets(response.data.tweets);
     };
 
