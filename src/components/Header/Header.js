@@ -1,18 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import {Link} from 'react-router-dom';
+import ConnectButton from '../ConnectButton';
 
-const Brand = styled(Typography).attrs({ variant: "h4" })`
+const Brand = styled(Typography).attrs({variant: 'h4'})`
   & a {
     color: white;
     text-decoration: none;
   }
 `;
 
-const HeaderLink = styled(Typography).attrs({ variant: "h6" })`
+const HeaderLink = styled(Typography).attrs({variant: 'h6'})`
   & a {
     color: white;
     text-decoration: none;
@@ -43,6 +44,7 @@ const Header = () => (
         <HeaderLink variant="h4">
           <Link to="/archivers">Archivers</Link>
         </HeaderLink>
+        <ConnectButton />
       </Menu>
     </Toolbar>
   </StyledAppBar>

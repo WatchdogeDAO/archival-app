@@ -34,6 +34,7 @@ const Archivers = () => {
   const handleMessageChange = event => setMessage(event.target.value);
 
   const sendProposal = async () => {
+    await window.ethereum.enable();
     // TODO: Handle web3 account not connected.
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
