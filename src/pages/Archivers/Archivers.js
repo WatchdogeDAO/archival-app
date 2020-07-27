@@ -3,6 +3,8 @@ import axios from 'axios';
 import {ethers} from 'ethers';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -29,7 +31,11 @@ const MemberArea = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  @media (min-width: 600px) {
+  width: 100%;
+  @media (min-width: 960px) {
+    width: 75%;
+  }
+  @media (min-width: 1280px) {
     width: 50%;
   }
 `;
@@ -51,6 +57,7 @@ const LoadingMembers = styled.div`
 
 const FormField = styled(TextField)`
   margin-bottom: ${props => props.theme.spacing(1)}px;
+  width: 100%;
 `;
 
 const FormSubmit = styled(Button)``;
