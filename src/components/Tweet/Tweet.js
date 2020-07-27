@@ -41,6 +41,9 @@ const ArchiveDate = styled(Typography)`
 // Text Styles
 
 const TextContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   @media (min-width: 768px) {
     width: 50%;
   }
@@ -54,6 +57,7 @@ const SourceDetails = styled.div`
 const TweetTextContainer = styled(Paper)`
   width: 100%;
   padding: ${props => props.theme.spacing(2)}px;
+  padding-bottom: ${props => props.theme.spacing(4)}px;
   background-color: ${props => props.theme.palette.primary.light};
   color: white;
 `;
@@ -92,12 +96,17 @@ const Tweet = ({tweet}) => {
         <Divider />
         <TweetBody>
           <TextContent>
-            <p>
-              IPFS Hash:{' '}
-              <a href={ipfsUrl} target="_blank" rel="noopener noreferrer">
-                {tweet.hash}
-              </a>
-            </p>
+            <div>
+              <p>
+                IPFS Hash:{' '}
+                <a href={ipfsUrl} target="_blank" rel="noopener noreferrer">
+                  {tweet.hash}
+                </a>
+              </p>
+              <TweetTextContainer elevation={1}>
+                <TweetText variant="body1">{tweet.text}</TweetText>
+              </TweetTextContainer>
+            </div>
             <SourceDetails>
               <p>
                 Archived by:{' '}
@@ -115,9 +124,6 @@ const Tweet = ({tweet}) => {
                 </a>
               </p>
             </SourceDetails>
-            <TweetTextContainer elevation={1}>
-              <TweetText variant="body1">{tweet.text}</TweetText>
-            </TweetTextContainer>
           </TextContent>
           <Media>
             <Video controls>
