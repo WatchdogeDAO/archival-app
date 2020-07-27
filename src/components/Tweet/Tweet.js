@@ -20,7 +20,7 @@ const TweetBody = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  @media (min-width: 600px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -41,7 +41,7 @@ const ArchiveDate = styled(Typography)`
 // Text Styles
 
 const TextContent = styled.div`
-  @media (min-width: 600px) {
+  @media (min-width: 768px) {
     width: 50%;
   }
 `;
@@ -63,12 +63,17 @@ const TweetText = styled(Typography)``;
 // Media Styles
 
 const Media = styled.div`
-  max-height: 400px;
-  max-width: 50%;
+  @media (min-width: 768px) {
+    width: 50%;
+    padding-top: ${props => props.theme.spacing(1)}px;
+    padding-right: ${props => props.theme.spacing(1)}px;
+    padding-left: ${props => props.theme.spacing(1)}px;
+  }
 `;
 
 const Video = styled.video`
   width: 100%;
+  max-height: 350px;
   object-fit: cover;
 `;
 
