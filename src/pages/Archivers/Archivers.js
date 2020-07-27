@@ -22,7 +22,7 @@ const Archivers = () => {
   const [members, setMembers] = useState(null);
   useEffect(() => {
     const getMembers = async () => {
-      const org = await connect('0x5005e04882845575f7433796B0DF0858e901B544', 'thegraph', {
+      const org = await connect('0x1EC8593c30C8e1E3a4685b5f7b048cD56174B4C3', 'thegraph', {
         chainId: 4,
       });
 
@@ -52,7 +52,7 @@ const Archivers = () => {
     const signer = provider.getSigner();
     let accounts = await provider.listAccounts();
 
-    const org = await connect('0x5005e04882845575f7433796B0DF0858e901B544', 'thegraph', {
+    const org = await connect('0x1EC8593c30C8e1E3a4685b5f7b048cD56174B4C3', 'thegraph', {
       chainId: 4,
     });
 
