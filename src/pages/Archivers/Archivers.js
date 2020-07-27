@@ -51,22 +51,25 @@ const Archivers = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     let accounts = await provider.listAccounts();
-
+    console.log('Account', account[0]);
     const org = await connect('0x1EC8593c30C8e1E3a4685b5f7b048cD56174B4C3', 'thegraph', {
       chainId: 4,
     });
 
     const apps = await org.apps();
     const {address} = apps.find(app => app.appName.includes('list.open'));
-
+    console.log('Address of app:', address);
     const ipfsContent = {
       twitterId,
       justification: message,
     };
+    console.log('IPFS Content', ipfsContent);
     const ipfsHash = await Hash.of(JSON.stringify(ipfsContent));
+    console.log('IPFS Hash', ipfsHash);
+
     const intent = await org.appIntent(address, 'addArchiver', [twitterId, ipfsHash]);
     const path = await intent.paths(accounts[0]);
-
+    console.log('Path', path);
     // TODO: Handle transaction errors.
     try {
       for (const transaction of path.transactions) {
