@@ -79,7 +79,7 @@ const Archivers = () => {
 
     // TODO: Handle pinning errors.
     try {
-      await axios.post('https://watchdog-dao.herokuapp.com/pin', {data: ipfsContent});
+      await axios.post('https://cryptomeetup.online/pin', {data: ipfsContent});
     } catch (e) {
       console.log('Something went wrong when pinning:', e);
     }
