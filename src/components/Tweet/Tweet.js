@@ -52,14 +52,28 @@ const TextContent = styled.div`
 const SourceDetails = styled.div`
   display: flex;
   justify-content: space-between;
+  & a {
+    border: 1px solid ${props => props.theme.palette.primary.light};
+    padding: ${props => props.theme.spacing(1)}px ${props => props.theme.spacing(2)}px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: ${props => props.theme.spacing(1)}px;
+    &:hover {
+      color: white;
+      background-color: ${props => props.theme.palette.primary.light};
+    }
+  }
 `;
 
 const TweetTextContainer = styled(Paper)`
   width: 100%;
   padding: ${props => props.theme.spacing(2)}px;
-  padding-bottom: ${props => props.theme.spacing(4)}px;
+  padding-bottom: ${props => props.theme.spacing(2)}px;
   background-color: ${props => props.theme.palette.primary.light};
   color: white;
+  @media (min-width: 900px) {
+    padding-bottom: ${props => props.theme.spacing(4)}px;
+  }
 `;
 
 const TweetText = styled(Typography)``;
