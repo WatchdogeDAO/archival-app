@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {ethers} from 'ethers';
-import {connect} from '@aragon/connect';
 import {CuratedList} from 'connect-thegraph-curated-list';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Hash from 'ipfs-only-hash';
+import {useApps, useOrganization, usePermissions} from '@aragon/connect-react';
 
 import MemberList from '../../components/MemberList';
 
@@ -19,16 +19,16 @@ const Form = styled.form`
 `;
 
 const Archivers = () => {
+  const [org, orgStatus] = useOrganization();
+  const [apps, appsStatus] = useApps();
+  const [permissions, permissionsStatus] = usePermissions();
+  const loading = orgStatus.loading || appsStatus.loading || permissionsStatus.loading;
+  const error = orgStatus.error || appsStatus.error || permissionsStatus.error;
+
   const [members, setMembers] = useState(null);
   useEffect(() => {
+    const {address} = apps.find(app => app.appName.includes('list.open'));
     const getMembers = async () => {
-      const org = await connect('0x1EC8593c30C8e1E3a4685b5f7b048cD56174B4C3', 'thegraph', {
-        chainId: 4,
-      });
-
-      const apps = await org.apps();
-      const {address} = apps.find(app => app.appName.includes('list.open'));
-
       const curatedList = await new CuratedList(
         address,
         'https://api.thegraph.com/subgraphs/name/mauerv/aragon-registry-rinkeby-staging'
@@ -36,8 +36,9 @@ const Archivers = () => {
       const members = await curatedList.members();
       setMembers(members);
     };
+
     getMembers();
-  }, []);
+  }, [apps]);
 
   const [twitterId, setTwitterId] = useState(null);
   const [message, setMessage] = useState(null);
@@ -51,12 +52,9 @@ const Archivers = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     let accounts = await provider.listAccounts();
-    console.log('Account', account[0]);
-    const org = await connect('0x1EC8593c30C8e1E3a4685b5f7b048cD56174B4C3', 'thegraph', {
-      chainId: 4,
-    });
+    console.log('Account', accounts[0]);
 
-    const apps = await org.apps();
+    if (apps === null) return;
     const {address} = apps.find(app => app.appName.includes('list.open'));
     console.log('Address of app:', address);
     const ipfsContent = {
