@@ -1,7 +1,0 @@
-{
-  "build": {
-    "enviroment": {
-      "REACT_APP_API_URL": "https://watchdog-dao.herokuapp.com"
-    }
-  }
-}
