@@ -61,3 +61,7 @@ export const TableTitle = styled(Typography)`
 `;
 
 export const TableContainer = styled.div``;
+
+export const Feedback = styled.div`
+  padding-top: ${props => props.theme.spacing(2)}px;
+`;

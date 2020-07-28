@@ -4,6 +4,7 @@ import {ethers} from 'ethers';
 import Divider from '@material-ui/core/Divider';
 import Hash from 'ipfs-only-hash';
 import {useApps, useOrganization} from '@aragon/connect-react';
+import Alert from '@material-ui/lab/Alert';
 import {
   ArchiversContainer,
   FormContainer,
@@ -17,6 +18,7 @@ import {
   LoadingText,
   TableTitle,
   TableContainer,
+  Feedback,
 } from './styles';
 
 import MemberList from '../../components/MemberList';
@@ -24,14 +26,18 @@ import useMembers from '../../hooks/useMembers';
 import Loading from '../../components/Loading';
 
 const Archivers = () => {
-  const [org, orgStatus] = useOrganization();
-  const [apps, appsStatus] = useApps();
-  const loading = orgStatus.loading || appsStatus.loading;
+  const [org] = useOrganization();
+  const [apps] = useApps();
   const members = useMembers();
 
   const [twitterId, setTwitterId] = useState(null);
   const [message, setMessage] = useState(null);
-  const isDisabled = useMemo(() => !twitterId || !message, [twitterId, message]);
+  const [processingProposal, setProcessingProposal] = useState(false);
+  const isDisabled = useMemo(() => !twitterId || !message || processingProposal, [
+    twitterId,
+    message,
+    processingProposal,
+  ]);
 
   const handleTwitterIdChange = event => setTwitterId(event.target.value);
 
@@ -39,6 +45,8 @@ const Archivers = () => {
 
   const sendProposal = async () => {
     if (isDisabled) return;
+
+    setProcessingProposal(true);
 
     await window.ethereum.enable();
     // TODO: Handle web3 account not connected.
@@ -74,7 +82,9 @@ const Archivers = () => {
       await axios.post('https://cryptomeetup.online/pin', {data: ipfsContent});
     } catch (e) {
       console.log('Something went wrong when pinning:', e);
+      setProcessingProposal(false);
     }
+    setProcessingProposal(false);
   };
 
   return (
@@ -111,6 +121,13 @@ const Archivers = () => {
           >
             Request Approval
           </FormSubmit>
+          {processingProposal && (
+            <Feedback>
+              <Alert severity="info">
+                Please be patient, calculating the transaction path can take a few moments...
+              </Alert>
+            </Feedback>
+          )}
         </Form>
       </FormContainer>
 
