@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import axios from 'axios';
 import {ethers} from 'ethers';
 import Divider from '@material-ui/core/Divider';
@@ -31,12 +31,15 @@ const Archivers = () => {
 
   const [twitterId, setTwitterId] = useState(null);
   const [message, setMessage] = useState(null);
+  const isDisabled = useMemo(() => !twitterId || !message, [twitterId, message]);
 
   const handleTwitterIdChange = event => setTwitterId(event.target.value);
 
   const handleMessageChange = event => setMessage(event.target.value);
 
   const sendProposal = async () => {
+    if (isDisabled) return;
+
     await window.ethereum.enable();
     // TODO: Handle web3 account not connected.
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -100,7 +103,12 @@ const Archivers = () => {
             variant="outlined"
             onChange={handleMessageChange}
           />
-          <FormSubmit variant="contained" color="primary" onClick={sendProposal}>
+          <FormSubmit
+            variant="contained"
+            color="primary"
+            onClick={sendProposal}
+            disabled={isDisabled}
+          >
             Request Approval
           </FormSubmit>
         </Form>
