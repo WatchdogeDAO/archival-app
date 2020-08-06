@@ -55,33 +55,46 @@ const Landing = () => (
       </Subtitle>
       <Actions>
         <StyledButton variant="contained" color="primary">
-          <Link to="/archive">Police Archive</Link>
+          <Link to="/datasets">OpenGov Backups</Link>
         </StyledButton>
         <StyledButton variant="contained" color="primary">
-          <Link to="/datasets">OpenGov Backups</Link>
+          <Link to="/archive">Police Archive</Link>
         </StyledButton>
       </Actions>
     </Jumbotron>
 
     <Block>
-      <BlockTitle>The Prototype</BlockTitle>
-      <Text>
-        This is a small prototype focused on police accountability. Footage from US protests has
-        shown a troubling amount of instances of police abuse of power. Footage is kept on Twitter
-        and some of it is already lost. This prototype is comprised of a few parts: A DAO with
-        crypto savvy people that can accept or refect twitter users that want to become archivers.
-        "Archivers" which are just twitter accounts that have been given vetted to interact with a
-        twitter bot and archive videos on IPFS+Filecoin by doing "@watchdogedao #archive"
-      </Text>
-    </Block>
-    <Block>
       <BlockTitle>Why a DAO?</BlockTitle>
       <Text>
         There are plenty of countries where pushing for more transparent and accountable
-        governmental organizations is dangerous or extremely difficult. Having unstoppable tools
-        like DAOs, to help coordination and collaboration is a requirement in those cases. There’s
-        also common infrastructure that we can build, so starting with an open source and
-        decentralized mentality is the way to go.
+        governmental organizations is dangerous or extremely difficult. There are also countries
+        where pushing for change might be safe now, but possibly not in 10-20 years. 2020 has once
+        again shown us how fragile everything really is. Unstoppable tools like DAOs, decentralized
+        finance and storage help coordination and collaboration in places where it would otherwise
+        be impossible. Most infrastructure that we build will benefit everyone, so starting with an
+        open source and decentralized mentality is the way to go.
+      </Text>
+    </Block>
+    <Block>
+      <BlockTitle>The Police Archive</BlockTitle>
+      <Text>
+        Instances of state and police abuse of force should be kept in long term storage. We can't
+        put that responsability in Twitter or Facebook. Argentina for example had a military coup 40
+        years ago. Countless people "dissapeared" on the hands of military officers. Current
+        goverments are looking for the people responsible. Can we expect Twitter to safely store
+        relevant data for 40 years? Our DAO vets approved archivers which will be able to store
+        police videos in IPFS and Filecoin by just tagging our @watchdogedao bot.
+      </Text>
+    </Block>
+    <Block>
+      <BlockTitle>Opengov Backups</BlockTitle>
+      <Text>
+        Countries around the world are starting to push for open data initiatives. That's good. But
+        data in centralized database can be tampered with. The new people in power might consider it
+        beneficial to destroy or stop providing said data. We will store provable snapshots of
+        opengov data from countries around the world on Filecoin. People in 10 years will be able to
+        verifiably check that a given government dataset published a long time ago was not tampered
+        by the current administration.
       </Text>
     </Block>
     <Block>
