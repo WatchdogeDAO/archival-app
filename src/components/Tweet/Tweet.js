@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import {Link} from 'react-router-dom';
 
 // Layout Styles
 const TweetContainer = styled(Card)`
@@ -104,7 +105,9 @@ const Tweet = ({tweet}) => {
     <TweetContainer>
       <CardContent>
         <TweetHeader>
-          <ArchiveNumber variant="h6">Archived Tweet Nº {tweet.id}</ArchiveNumber>
+          <ArchiveNumber variant="h6">
+            <Link to={`/archive/${tweet.hash}`}>Archived Tweet Nº {tweet.id}</Link>
+          </ArchiveNumber>
           <ArchiveDate variant="body1">{formatDate(tweet.date)}</ArchiveDate>
         </TweetHeader>
         <Divider />
