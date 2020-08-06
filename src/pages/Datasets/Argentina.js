@@ -7,16 +7,26 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import datasets from './argentina_snapshot.json';
 import HashLink from '../../components/HashLink';
 
+const VerifiabilityContainer = styled.div`
+  margin: 16px auto;
+`;
+const Block = styled.div`
+  margin-bottom: 16px;
+`;
+
 const Argentina = () => (
   <div>
-    <div>
-      <h1>Verifiability</h1>
-      <div>
-        <h2>Full Data</h2>
+    <VerifiabilityContainer>
+      <Typography variant="h4" style={{marginBottom: '10px'}}>
+        Storage
+      </Typography>
+      <Block>
+        <Typography variant="h6">Full Data</Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -35,35 +45,38 @@ const Argentina = () => (
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div>
-        <h2>Index (Quick Validation)</h2>
+      </Block>
+      <Block>
+        <Typography variant="h6">Snapshot Index</Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow style={{wordBreak: 'break-all'}}>
                 <TableCell>Deal Cid</TableCell>
                 <TableCell>Deal Id</TableCell>
                 <TableCell>Piece Cid</TableCell>
+                <TableCell>IPFS File</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
+              <TableRow style={{wordBreak: 'break-all'}}>
                 <TableCell>bafyreigvejeoi5q5m7b77jbm5zdtend42comhjo5twcuteh4p6577t7pni</TableCell>
                 <TableCell>3202</TableCell>
                 <TableCell>bafk4chzayi67fcy2hjkmzycfohqi6t6axxlyoe2f5akpumkchrqo7t2f746a</TableCell>
+                <TableCell>3202</TableCell>
+                <TableCell>
+                  <HashLink hash={'QmWpRnnZDd1C1dxZH5SBHN58M6dEgwxuzhyVT9CAafmGYe'} />
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
-      <div>
-        <h2>Original Source</h2>
-        <a href="https://datos.gob.ar/">https://datos.gob.ar/</a>
-      </div>
-    </div>
+      </Block>
+    </VerifiabilityContainer>
     <div>
-      <h2>Datasets</h2>
+      <Typography variant="h4" style={{marginBottom: '10px'}}>
+        Datasets
+      </Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

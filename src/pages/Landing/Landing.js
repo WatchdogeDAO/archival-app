@@ -64,6 +64,29 @@ const Landing = () => (
     </Jumbotron>
 
     <Block>
+      <BlockTitle>The Police Archive</BlockTitle>
+      <Text>
+        Instances of state and police abuse of force should be kept in long term storage. Twitter or
+        Facebook can't be the ones tasked to do so. Argentina for example had a military coup 40
+        years ago. Countless people "dissapeared" on the hands of military officers. Current
+        goverments are looking for the people responsible. Can we expect Twitter to safely store
+        relevant data for 40 years when videos archived by us just weeks ago are no longer available
+        on the site? Our DAO vets approved archivers which will be able to store police videos in
+        IPFS and Filecoin by just tagging our @watchdogedao bot.
+      </Text>
+    </Block>
+    <Block>
+      <BlockTitle>Opengov Backups</BlockTitle>
+      <Text>
+        Countries around the world are starting to push for open data initiatives. That's good. But
+        data in centralized database can be tampered with. The new people in power might consider it
+        beneficial to destroy or stop providing said data. We will store provable snapshots of
+        opengov data from countries around the world on Filecoin. People in 10 years will be able to
+        do data analysis on government datasets published a long time ago, knowing that they were
+        not tampered by the current administration.
+      </Text>
+    </Block>
+    <Block>
       <BlockTitle>Why a DAO?</BlockTitle>
       <Text>
         There are plenty of countries where pushing for more transparent and accountable
@@ -76,31 +99,9 @@ const Landing = () => (
       </Text>
     </Block>
     <Block>
-      <BlockTitle>The Police Archive</BlockTitle>
-      <Text>
-        Instances of state and police abuse of force should be kept in long term storage. We can't
-        put that responsability in Twitter or Facebook. Argentina for example had a military coup 40
-        years ago. Countless people "dissapeared" on the hands of military officers. Current
-        goverments are looking for the people responsible. Can we expect Twitter to safely store
-        relevant data for 40 years? Our DAO vets approved archivers which will be able to store
-        police videos in IPFS and Filecoin by just tagging our @watchdogedao bot.
-      </Text>
-    </Block>
-    <Block>
-      <BlockTitle>Opengov Backups</BlockTitle>
-      <Text>
-        Countries around the world are starting to push for open data initiatives. That's good. But
-        data in centralized database can be tampered with. The new people in power might consider it
-        beneficial to destroy or stop providing said data. We will store provable snapshots of
-        opengov data from countries around the world on Filecoin. People in 10 years will be able to
-        verifiably check that a given government dataset published a long time ago was not tampered
-        by the current administration.
-      </Text>
-    </Block>
-    <Block>
       <BlockTitle>Community</BlockTitle>
       <Text>
-        The community has just started, but If you want to reach out. Here's the Org's{' '}
+        The community has just started, but If you want to reach out. Here's the org's{' '}
         <a href="https://twitter.com/watchdogedao" target="_blank" rel="noopener noreferrer">
           Twitter
         </a>
