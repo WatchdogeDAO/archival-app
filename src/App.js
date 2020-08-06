@@ -6,6 +6,8 @@ import {Connect} from '@aragon/connect-react';
 import Landing from 'pages/Landing';
 import Archive from 'pages/Archive';
 import Archivers from 'pages/Archivers';
+import Datasets from 'pages/Datasets/Datasets';
+import Argentina from 'pages/Datasets/Argentina';
 import Header from 'components/Header';
 
 function App() {
@@ -27,6 +29,12 @@ function App() {
             </Route>
             <Route path="/archive">
               <Archive />
+            </Route>
+            <Route exact path="/datasets">
+              <Datasets />
+            </Route>
+            <Route path="/datasets/argentina">
+              <Argentina />
             </Route>
             <Redirect to="/" />
           </Switch>

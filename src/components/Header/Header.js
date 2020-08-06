@@ -12,12 +12,12 @@ const Brand = styled(Typography).attrs({variant: 'h4'})`
   }
 `;
 
-const HeaderLink = styled(Typography).attrs({variant: 'h6'})`
+const HeaderLink = styled(Typography).attrs({variant: 'body1'})`
   & a {
     color: white;
     text-decoration: none;
   }
-  margin-left: 20px;
+  margin-left: 25px;
 `;
 
 const StyledAppBar = styled(AppBar)`
@@ -38,7 +38,15 @@ const Header = () => (
       </Brand>
       <Menu>
         <HeaderLink variant="h4">
-          <Link to="/archive">Archive</Link>
+          <Link to="/datasets">OpenGov</Link>
+        </HeaderLink>
+        <HeaderLink variant="h4">
+          <Link to="/archive">Police</Link>
+        </HeaderLink>
+        <HeaderLink variant="h4">
+          <a href="https://rinkeby.aragon.org/#/watchdogedao" target="_blank" rel="noopener">
+            Dao
+          </a>
         </HeaderLink>
         <HeaderLink variant="h4">
           <Link to="/archivers">Archivers</Link>

@@ -55,10 +55,10 @@ const Landing = () => (
       </Subtitle>
       <Actions>
         <StyledButton variant="contained" color="primary">
-          <Link to="/archive"> See the Archive</Link>
+          <Link to="/archive">Police Archive</Link>
         </StyledButton>
         <StyledButton variant="contained" color="primary">
-          <Link to="/archivers"> Become an Archiver</Link>
+          <Link to="/datasets">OpenGov Backups</Link>
         </StyledButton>
       </Actions>
     </Jumbotron>
